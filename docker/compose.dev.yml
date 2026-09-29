@@ -1,0 +1,76 @@
+name: manablox-user-docs-dev
+
+# The development environment: `pnpm dev:up` installs the dependencies and runs the guide in
+# Astro's dev server on http://localhost:3008 (the port no other Manablox stack uses). It
+# reads `src/content/docs/` from the bind-mounted repository, so editing a page on the host
+# reloads it in the browser.
+#
+# `@manablox/docs-theme` comes from the local registry of the CMS stack (manablox-cms,
+# `pnpm dev:services` and `pnpm dev:publish` there). Its containers reach it as `verdaccio`
+# on the docker network `manablox-registry`, which that stack creates, so bring it up first.
+#
+# The repository is bind-mounted and nothing is masked over it: `pnpm install` runs in the
+# container, writes into the working copy, and the host reads the same `node_modules`. That
+# works because host and container are both linux/glibc on the same architecture.
+
+x-workspace: &workspace
+  build:
+    context: ..
+    dockerfile: docker/Dockerfile.dev
+  image: manablox-user-docs-dev
+  init: true
+  # Everything the container installs lands in the bind-mounted working copy, so it runs as
+  # the host's user or the host cannot delete what it produced. `scripts/dev.sh` exports
+  # these; 1000 is right for a single-user Linux desktop.
+  user: ${DEV_UID:-1000}:${DEV_GID:-1000}
+  working_dir: /app
+  volumes:
+    - ..:/app
+  environment: &watch-env
+    # The image's home belongs to root, which this user cannot write. Only disposable cache
+    # goes there - the pnpm store is `/app/.pnpm-store` (see Dockerfile.dev).
+    HOME: /tmp
+    # Filesystems that do not deliver inotify events over a bind mount need polling instead;
+    # on a native Linux mount it is pure overhead.
+    CHOKIDAR_USEPOLLING: ${DEV_POLL:-false}
+
+services:
+  # The install runs on its own and exits; the dev server waits for it.
+  install:
+    <<: *workspace
+    # CI=true lets pnpm replace a node_modules folder a host install left behind, which it
+    # otherwise refuses to do without a terminal.
+    environment:
+      <<: *watch-env
+      CI: 'true'
+    # The host's `.npmrc` names the registry as `localhost:4873`, which inside the container
+    # is the container itself; the flag wins over the file.
+    command: ['pnpm', 'install', '--frozen-lockfile', '--@manablox:registry=http://verdaccio:4873/']
+    networks: [default, manablox-registry]
+
+  user-docs:
+    <<: *workspace
+    restart: unless-stopped
+    # `--host` makes the dev server listen on the container's interface instead of its
+    # loopback; without it the published port answers nothing.
+    command: ['pnpm', 'dev', '--host', '0.0.0.0']
+    env_file: [../.env]
+    ports: ['3008:3008']
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:3008/').then((r) => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"
+      interval: 3s
+      timeout: 3s
+      retries: 40
+      start_period: 5s
+    depends_on:
+      install:
+        condition: service_completed_successfully
+
+networks:
+  # Created by the CMS stack (`pnpm dev:services` in manablox-cms).
+  manablox-registry:
+    external: true

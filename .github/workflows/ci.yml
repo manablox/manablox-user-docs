@@ -1,0 +1,84 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Everything that reads the source without building the site.
+  static:
+    name: lint - words - astro check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/setup
+
+      - name: Lint
+        run: pnpm lint
+
+      # Unused files, exports and dependencies; config in knip.jsonc.
+      - name: Dead code
+        run: pnpm knip
+
+      # The pages describe what is, and names Manablox removed stay gone.
+      - name: Docs wording and removed names
+        run: pnpm docs:words
+
+      # The frontmatter of every page against the Starlight schema, and the config's types.
+      - name: Astro check
+        run: pnpm typecheck
+
+  build:
+    name: build - links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/setup
+
+      # A relative link that leaves src/content/docs/ fails here.
+      - name: Build
+        run: pnpm build
+
+      # Every internal link in the rendered site resolves; the markdown-link rewrite cannot
+      # silently produce a 404.
+      - name: Check links
+        run: pnpm links
+
+  # The production image, built and not pushed; release.yml pushes the version tags.
+  image:
+    name: image - user-docs
+    needs: [static, build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: docker/setup-buildx-action@v4
+
+      - uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: docker/Dockerfile
+          push: false
+          load: true
+          tags: ghcr.io/${{ github.repository_owner }}/user-docs:ci
+          cache-from: type=gha,scope=user-docs
+          cache-to: type=gha,mode=max,scope=user-docs
+
+      # The image serves the guide: the home page, a deep page, and a real 404.
+      - name: Smoke test
+        run: |
+          set -euo pipefail
+          docker run -d --name user-docs -p 8080:80 ghcr.io/${{ github.repository_owner }}/user-docs:ci
+          for _ in $(seq 1 20); do curl -fs http://localhost:8080/ >/dev/null && break; sleep 1; done
+          curl -fs http://localhost:8080/ >/dev/null
+          curl -fs http://localhost:8080/help/cli/ >/dev/null
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/no-such-page/)" = 404
+          docker rm -f user-docs

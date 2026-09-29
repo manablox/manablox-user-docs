@@ -1,0 +1,15 @@
+# The image builds from the manifests, `src/` and `public/`; everything the build makes for
+# itself, and anything secret, stays out of the context.
+node_modules
+.pnpm-store
+dist
+.astro
+.git
+.github
+.remember
+**/*.log
+.env
+.env.*
+!.env.example
+# The development registry setting; the build takes it as MANABLOX_REGISTRY instead.
+.npmrc

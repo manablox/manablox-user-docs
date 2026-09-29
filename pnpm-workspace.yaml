@@ -1,0 +1,32 @@
+# One package, the site itself, at the root. A workspace file all the same: it holds the
+# catalog, the build-script allowlist and the release-age exclusions.
+#
+# Build scripts are opt-in: each dependency that wants to run one on install must be
+# named in `allowBuilds`. Anything not listed is blocked, so a transitive package cannot
+# execute arbitrary code during `pnpm install`.
+# Dependencies are installed inside the dev container, which records its own store path
+# in `node_modules`. Without this a host `pnpm <script>` (and the pre-commit hook with it)
+# sees a mismatch and tries to purge and reinstall.
+verifyDepsBeforeRun: false
+
+allowBuilds:
+  '@biomejs/biome': true
+  esbuild: true
+  # Its postinstall only calls the same installer the `prepare` script runs.
+  simple-git-hooks: false
+catalog:
+  '@biomejs/biome': ^2.5.12
+  simple-git-hooks: ^2.13.0
+  knip: ^6.37.0
+  astro: ^7.3.1
+  '@astrojs/starlight': ^0.42.0
+  '@astrojs/check': ^0.9.10
+catalogs:
+  # `astro check` drives TypeScript's programmatic API, which the native 7.x compiler
+  # does not expose yet. See https://github.com/withastro/roadmap/discussions/1321.
+  astro:
+    typescript: ^6.0.3
+# pnpm's `minimumReleaseAge` holds back packages published minutes ago. `@manablox/*` comes
+# from the CMS stack's local registry in development, where every package is that new.
+minimumReleaseAgeExclude:
+  - '@manablox/*'
