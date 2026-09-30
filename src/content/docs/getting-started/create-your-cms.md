@@ -83,6 +83,8 @@ Next comes a list of features. Nothing is ticked: a project without any is the c
 | Workflows | The workflows plugin: automations built in the admin. See [Workflows](../admin/workflows.md) |
 | Webhooks | The webhooks plugin: calls to other systems when content changes, and addresses other systems call. With workflows, those calls can start workflows. See [Webhooks](../admin/webhooks.md) |
 
+Designed websites and AI assistance are premium features. On your own computer they run without a license key; at the end, `manablox create` asks whether to license them now, and **Continue without a key (development)** is fine. Production needs a subscription (see [Premium plugins and licenses](../your-project/premium-plugins.md)).
+
 For this guide, tick **Designed websites** if you want to try the designer; the rest of the guide builds its own website and needs none of them. You can add any feature later with `pnpm exec manablox plugin install website` (or `ai`, `workflows`, `webhooks`) and remove it with `manablox plugin uninstall`; see [The manablox command](../help/cli.md#manablox-plugin). On the command line, `--features website,ai` picks features without the list.
 
 ### Uploads and mail

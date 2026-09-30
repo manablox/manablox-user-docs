@@ -14,7 +14,7 @@ Nothing of this is switched on by default. A space without a provider shows no w
 
 AI comes from the AI plugin, the package `@manablox/plugin-ai`. A project made with `manablox create` has it when **AI assistance** was picked (or `--ai` given). Without the plugin there is no **AI** section in the settings and none of the buttons on this page. To add it to a project later, a developer runs `pnpm exec manablox plugin install ai` in the project folder and restarts the CMS.
 
-The AI plugin is a premium plugin: it needs a license key, and a free 14-day trial gets you started. Without a license that covers it, the wands, **Generate** and the **Describe** buttons show a lock and AI steps in workflows stop; your providers, keys and history stay. See [Premium plugins and licenses](../your-project/premium-plugins.md).
+The AI plugin is a premium plugin. On your own computer it runs without a license key; in production it needs one, and a free 14-day trial gets you started. Without a license that covers it on a production installation, the wands, **Generate** and the **Describe** buttons show a lock and AI steps in workflows stop; your providers, keys and history stay. See [Premium plugins and licenses](../your-project/premium-plugins.md).
 
 You always stay in control: AI answers appear in a window first, you can change them, and nothing is saved until you save the document yourself.
 

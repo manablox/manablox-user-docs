@@ -19,7 +19,7 @@ Your CMS is made of five `@manablox/*` packages, listed in `package.json`:
 }
 ```
 
-Each feature you picked adds its plugin: `@manablox/plugin-website` for designed websites, `@manablox/plugin-ai` for AI, `@manablox/plugin-workflows` for workflows and `@manablox/plugin-webhooks` for webhooks. The two premium plugins, website and AI, also bring `@manablox/plugin-license`, which checks their license keys.
+Each feature you picked adds its plugin: `@manablox/plugin-website` for designed websites, `@manablox/plugin-ai` for AI, `@manablox/plugin-workflows` for workflows and `@manablox/plugin-webhooks` for webhooks. The two premium plugins, website and AI, also bring `@manablox/plugin-license`, which checks their license keys in production.
 
 They are released together, always with the same version number. Keep them all on the same version: update them together, never one alone.
 

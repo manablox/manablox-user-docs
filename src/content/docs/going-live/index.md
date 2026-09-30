@@ -156,7 +156,7 @@ Run it again whenever you change `package.json`.
 | `ACME_EMAIL` | An address you read |
 | `STORAGE_DRIVER` | `local` keeps uploads on the server; `s3` needs the `S3_*` lines filled in. See [Uploads and images](../your-project/storage-and-media.md). |
 | `MAIL_DRIVER` | `none` by default, so the CMS sends no email. See [Sending email](../your-project/mail.md). |
-| `MANABLOX_LICENSE_KEYS` | With the website or AI plugin: your license key. A key that covered your laptop as development now activates as production and takes a seat. The server must be allowed to make outbound HTTPS calls to `licenses.manablox.io`. See [Premium plugins and licenses](../your-project/premium-plugins.md). |
+| `MANABLOX_LICENSE_KEYS` | With the website or AI plugin: your license key. Your laptop ran them without one, but a server on a public domain is production: without a key they lock. The key activates as production and takes a seat. The server must be allowed to make outbound HTTPS calls to `licenses.manablox.io`. See [Premium plugins and licenses](../your-project/premium-plugins.md). |
 
 Every variable is explained in [The .env file](../your-project/environment.md).
 

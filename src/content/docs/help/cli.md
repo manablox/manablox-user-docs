@@ -435,7 +435,7 @@ The command changes only the parts it marked: every place a feature can add to h
 
 After installing or removing a feature, restart the CMS (`pnpm dev` restarts on its own). In a `docker` project run `./scripts/lockfile.sh` and `docker compose up -d --build`.
 
-Designed websites and AI assistance are premium features: they need a license. When you install one and no license covers it yet, the command asks once what to do: start a 14-day trial, buy a subscription, enter a key you already have, or later. It installs the feature either way; without a license it stays locked. With `--yes` or without a terminal it shows the commands to run instead. `manablox create` asks the same question once at the end, when you picked a premium feature.
+Designed websites and AI assistance are premium features: in production they need a license, on your own computer they run without one. When you install one and no license covers it yet, the command asks once what to do. On a local installation (every address private, not `NODE_ENV=production`) it asks "… On this local instance it runs without a license key; production needs a subscription. License it now?", and the first answer, **Continue without a key (development)**, is the default; after it come start a 14-day trial, buy a subscription and enter a key you already have. Elsewhere it asks "License it now?" with start a 14-day trial (the default), buy, enter a key, or later; without a license the feature stays locked there. It installs the feature either way. With `--yes` or without a terminal it shows the commands to run instead; for a local project they start with the line `# the premium plugins run locally without a key; production needs a license:`. `manablox create` asks the same question once at the end, when you picked a premium feature.
 
 ## manablox website
 
@@ -467,7 +467,7 @@ pnpm exec manablox website domains remove www.example.com --space blog
 
 ## manablox license
 
-License keys for the premium features, designed websites and AI assistance. You buy a subscription in the license portal, and the key lands in your project's `.env` as `MANABLOX_LICENSE_KEYS`. Keys are secrets: never put them in `manablox.config.ts`.
+License keys for the premium features, designed websites and AI assistance. A local installation needs none: the premium features run there without a key, on local addresses only (see [Premium plugins and licenses](../your-project/premium-plugins.md#development-and-production)). For production you buy a subscription in the license portal, and the key lands in your project's `.env` as `MANABLOX_LICENSE_KEYS`. Keys are secrets: never put them in `manablox.config.ts`.
 
 ```sh
 pnpm exec manablox license buy
@@ -482,7 +482,7 @@ pnpm exec manablox license remove XXXXX
 | --- | --- |
 | `buy` | Asks which premium features you want (both together are the bundle) and whether to pay monthly or yearly, with the prices. It then opens the portal in your browser and shows a code: check that the portal shows the same one, and pay there. The command waits until you are done, for up to 30 minutes, then saves and activates the key by itself. You can close the browser tab after paying. Whether a free trial applies, the portal decides. Ctrl+C stops waiting |
 | `add <key>` | Saves a key you already have in `.env` and activates it. Without a `.env` it asks whether to create one, or shows the line to add to your server's settings. When all the subscription's production places are taken, it lists the other installations using them and offers to switch one off, to use this installation as a development one, or to stop |
-| `status` | Shows every key with its features, kind, state, when the paid or trial period ends and when the license was last checked, then the state of each premium feature. Ends with code `1` while a premium feature is locked |
+| `status` | Shows every key with its features, kind, state, when the paid or trial period ends and when the license was last checked, then the state of each premium feature: `development` for one that runs without a license on a local installation. Ends with code `1` while a premium feature is locked, not while it is `development` |
 | `activate [<key id>]` | Activates the keys again, for example after restoring a backup on another server |
 | `refresh` | Checks every license with the license server now |
 | `remove <key id>` | Switches the key off on the license server and takes it out of `.env` (a key added in the admin is removed there) |
