@@ -6,6 +6,7 @@
 #
 # With a `.npmrc` that points `@manablox` at a local registry (the development setup), the
 # build installs from that registry, over the host network; without one, from npmjs.
+# `--registry` names the registry instead, whatever `.npmrc` says.
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/lib/common.sh"
 cd "$ROOT"
@@ -13,6 +14,7 @@ cd "$ROOT"
 prefix="${IMAGE_PREFIX:-ghcr.io/manablox}"
 tag=""
 push=false
+registry=""
 
 usage() {
   cat <<'USAGE'
@@ -20,6 +22,8 @@ Usage: scripts/docker-build.sh [options]
 
   --tag <tag>       image tag (default: the version in package.json, e.g. 0.50.0)
   --prefix <name>   registry and namespace (default: $IMAGE_PREFIX or ghcr.io/manablox)
+  --registry <url>  where `@manablox/*` installs from (default: the `@manablox:registry`
+                    of .npmrc, else npmjs)
   --push            push the image after building it (log in to the registry first)
   -h, --help        this message
 
@@ -31,6 +35,7 @@ while [ $# -gt 0 ]; do
   case "$1" in
     --tag) tag="${2:?--tag needs a tag}"; shift ;;
     --prefix) prefix="${2:?--prefix needs a name}"; shift ;;
+    --registry) registry="${2:?--registry needs a url}"; shift ;;
     --push) push=true ;;
     -h|--help) usage; exit 0 ;;
     *) usage_error "unknown option '$1'" ;;
@@ -47,7 +52,9 @@ require_docker
 
 build_args=(--build-arg "DOCS_SITE_URL=${DOCS_SITE_URL:-}" --build-arg "DOCS_BASE_PATH=${DOCS_BASE_PATH:-}")
 network=()
-registry="$(sed -nE 's/^@manablox:registry=(.+)$/\1/p' .npmrc 2>/dev/null | head -n1 || true)"
+if [ -z "$registry" ]; then
+  registry="$(sed -nE 's/^@manablox:registry=(.+)$/\1/p' .npmrc 2>/dev/null | head -n1 || true)"
+fi
 if [ -n "$registry" ]; then
   log "installing @manablox/* from $registry"
   build_args+=(--build-arg "MANABLOX_REGISTRY=$registry")
