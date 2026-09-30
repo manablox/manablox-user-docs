@@ -1,9 +1,9 @@
 ---
 title: "Field types"
-description: "The fourteen built-in field types in plain words: what each one holds, what editors see in the admin, which settings it has and what it is typically used for."
+description: "The fifteen built-in field types in plain words: what each one holds, what editors see in the admin, which settings it has and what it is typically used for."
 ---
 
-When you add a field to a content type, the first thing you choose is its **field type**. The field type decides what can go into the field (text, a number, an image, a list of blocks) and what editors see when they fill it in. Manablox comes with fourteen field types. This page describes each of them.
+When you add a field to a content type, the first thing you choose is its **field type**. The field type decides what can go into the field (text, a number, an image, a list of blocks) and what editors see when they fill it in. Manablox comes with fifteen field types. This page describes each of them.
 
 You add fields in the admin under **Content types**: open a type, click **Add field** and pick a field type from the list. How the builder works is explained in [Building content types](../admin/content-types.md). Developers can add their own field types too; see [Custom field types](../extending/custom-field-types.md).
 

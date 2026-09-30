@@ -70,7 +70,7 @@ For learning, pick **Local development**. It is the first entry and already high
 
 ### The public API
 
-Answer **Yes**. The public API is what your website will read from in [Show it on a website](./first-website.md). It only serves published content of one space and cannot change anything, which makes it safe to expose. You can read more in [The public API](../website/public-api.md).
+Answer **Yes**. The public API is what your website will read from in [Show it on a website](./first-website.md). It only serves published content and cannot change anything, which makes it safe to expose. You can read more in [The public API](../website/public-api.md).
 
 ### Features
 

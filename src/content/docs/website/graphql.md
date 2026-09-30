@@ -16,7 +16,7 @@ Every query is a `POST` request to `/graphql` on the public API:
 | `local`, while you develop | `http://localhost:3100/graphql` |
 | On a server | `https://<your public API domain>/graphql` |
 
-The request body is JSON with a `query` and, optionally, `variables`. The public API only returns published content of its one space, and it needs no login or key.
+The request body is JSON with a `query` and, optionally, `variables`. The public API only returns published content of the space it serves, and it needs no login or key.
 
 ## Your first query
 
