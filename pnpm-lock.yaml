@@ -742,7 +742,7 @@ packages:
     resolution: {integrity: sha512-T7jf+5zgsZHwNJ4lvQ7/aezbyk0nNX+zJVWpmHA7VYsEx7a7qr5Rg5IbtJFqkgze5Y2sruq1RUY8Q837Od7iFw==}
 
   '@manablox/docs-theme@0.50.0':
-    resolution: {integrity: sha512-kvtDDUtJq7yOyG2OV+EaV089PvGVB9VUQiGwcZeqdSDR0tTaPeIy0lSVSOaano72Be7KT0rMuIT2zWY25ltXtA==}
+    resolution: {integrity: sha512-Bu/JKweXQn26itcElkpweKFwmnelNDc/i9V25hJT0GeVXSs5BgKaoykJ9iJZl5xf2Mr5rp2PC32weiCjsTvmhA==}
     peerDependencies:
       astro: ^7.3.1
 
