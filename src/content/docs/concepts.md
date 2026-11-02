@@ -26,7 +26,7 @@ Example: the bakery's staff use the admin, which uses the management API. The ba
 
 A **space** is one website or channel, with everything that belongs to it: its pages, its languages, its images, its menus and the people who may work on it. Almost everything in the admin happens "inside a space". You switch between spaces at the top of the admin's sidebar.
 
-A space has a **name** you can change, a **technical name** that is fixed once the space exists (it is used in code and addresses), and a **frontend URL**: the address of the website that shows it.
+A space has a **name** you can change, a **technical name** that is fixed once the space exists (it is used in code and addresses), and, when a website shows it, a **frontend URL**: the address of that website. A space that only holds data goes without one.
 
 Example: Sunny Bakes has one space, "Website". If it later starts an app with different content, that could be a second space.
 

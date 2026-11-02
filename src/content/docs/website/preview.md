@@ -9,7 +9,7 @@ This works because the website has a special page, `/preview`, that the admin op
 
 ## What editors get
 
-In the admin, open a document under Content and click **Visual** in the toolbar. The button appears for documents that have a URL and a blocks field, such as the Pages of the **Basic setup**.
+In the admin, open a document under Content and click **Visual** in the toolbar. The button appears for documents that have a URL and a blocks field, such as the Pages of the **Basic setup**, in a space with a frontend URL.
 
 A full-screen view opens:
 

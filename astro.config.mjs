@@ -37,7 +37,6 @@ export default defineConfig(
           { label: 'Logs', slug: 'your-project/logging' },
           { label: 'Content types in code', slug: 'your-project/content-types-in-code' },
           { label: 'Workflows and webhooks in code', slug: 'your-project/resources-in-code' },
-          { label: 'Premium plugins and licenses', slug: 'your-project/premium-plugins' },
         ],
       },
       {

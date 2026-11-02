@@ -131,17 +131,6 @@ These groups have their own pages:
 
 `AI_ALLOWED_HOSTS` is read by the AI plugin's line in `manablox.plugins.ts`; a project without AI assistance has neither. Without an entry in `AI_ALLOWED_HOSTS`, the admin refuses to connect to a model on your own network and names the address you have to add. Restart the CMS after changing either variable. See [AI](../admin/ai.md). How long a workflow run may take and how many pages a crawl step may read are not variables but options of `workflowsPlugin(...)` in `manablox.config.ts` (see [Workflows](../admin/workflows.md)).
 
-## Premium plugin licenses
-
-The website and AI plugins need a license key in production; on your own computer they run without one. See [Premium plugins and licenses](./premium-plugins.md).
-
-| Variable | Default | What it means |
-| --- | --- | --- |
-| `MANABLOX_LICENSE_KEYS` | empty | Your license keys, separated by commas. `manablox license buy` and `manablox license add` write them here. Keep them secret. Empty is fine on a development installation |
-| `MANABLOX_LICENSE_SERVER` | `https://licenses.manablox.io/api` | The license server. The CMS needs to reach it over HTTPS about once a day |
-| `MANABLOX_LICENSE_KIND` | `auto` | `auto` decides between development and production from `NODE_ENV` and the addresses of the CMS. `development` makes the CMS a development installation whatever `NODE_ENV` says, but its addresses still have to be private, and it still serves private addresses only. `production` makes it a production installation always, so the premium plugins need a key |
-| `MANABLOX_LICENSE_DEV_HOSTS` | empty | Preview servers with a public name that should count as private, so the premium plugins run there without a key, separated by commas, as `preview.example.com` or `*.preview.example.com` |
-
 ## Push notifications
 
 | Variable | Default | What it means |

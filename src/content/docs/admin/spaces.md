@@ -21,7 +21,7 @@ The **Settings** entry in the sidebar only appears for people who may change the
 In the sidebar, click **Settings**. The side panel lists the sections of the settings in two groups:
 
 - **This space** (with the name of the space you are working in under the heading): General, Members, Roles, Tags, AI (with the AI plugin), Credentials, API hosts, Environments, Export and transfer, Backups and Usage, as far as your role and plan allow. These always act on the space you are working in, the one picked in the space switcher at the top of the sidebar.
-- **Instance** ("Shared by every space"): Spaces, Users, Security, API keys, Usage and Licenses (with a premium plugin). Users, Security, Usage and Licenses are for administrators only.
+- **Instance** ("Shared by every space"): Spaces, Users, Security, API keys and Usage. Users, Security and Usage are for administrators only.
 
 [A tour](./index.md#settings) says what each section is for.
 
@@ -29,13 +29,13 @@ On a small screen, the **Settings** button in the top bar opens this list.
 
 Click **Spaces** to see every space you are a member of (an administrator sees all spaces). Each row shows your role there, and the space you are working in is marked **Current**. Click a row to switch the whole admin to that space; its **General** settings open. You can also switch spaces at any time with the space switcher.
 
-To change another space's settings, switch to it first. Each section has its own address, `/settings?tab=` followed by its name, for example `general`, `members`, `roles`, `tags`, `credentials`, `transfer`, `spaces`, `users` or `keys`, so you can bookmark it. A section a plugin adds is named after the plugin and the section, for example `ai.ai` or `license.licenses`. Opening `/settings` alone shows **General**, or **Spaces** when you have no space yet.
+To change another space's settings, switch to it first. Each section has its own address, `/settings?tab=` followed by its name, for example `general`, `members`, `roles`, `tags`, `credentials`, `transfer`, `spaces`, `users` or `keys`, so you can bookmark it. A section a plugin adds is named after the plugin and the section, for example `ai.ai`. Opening `/settings` alone shows **General**, or **Spaces** when you have no space yet.
 
 ## Creating a space
 
 1. Go to **Settings > Spaces** and click **New space** at the top right. You can also press `n`. When there are no spaces yet, click **New space** in the middle of the page, or **Start with the basic setup** to have **Preconfigured** and **Basic setup** chosen for you.
 2. In the **New space** dialog, type a **Name**, for example `Company website`. The **Technical name** fills itself in as `company-website`.
-3. Under **Website**, choose **Designed site** to design the website in the admin, or **Own frontend** when a developer builds it (see below), and fill in the address it asks for. The **Website** choice comes from the website plugin, a premium plugin (see [Premium plugins and licenses](../your-project/premium-plugins.md)); an installation without it only asks for the **Frontend URL**.
+3. Under **Website**, choose **Designed site** to design the website in the admin, or **Own frontend** when a developer builds it (see below), and fill in the address it asks for. The **Website** choice comes from the website plugin; an installation without it only asks for the **Frontend URL**. For an **Empty space** the address is optional: leave it empty for a [space without a website](#a-space-without-a-website).
 4. Pick the **Locales** (languages) and the **Default locale**. See [Languages and translations](../content-model/localisation.md).
 5. Under **Start with**, choose **Empty space** or **Preconfigured** (see below).
 6. For a preconfigured space, click **Next: website type** and pick the **Type of website**. For **Pick your blocks**, tick the **Sections** your pages are built from.
@@ -164,7 +164,7 @@ This card is open when the page loads. It holds:
 | Field | What it is |
 | --- | --- |
 | Name | The space's name everywhere in the admin. Can be changed at any time |
-| Website address | The address of the website that shows this space. In the **New space** dialog it is called **Frontend URL** |
+| Website address | The address of the website that shows this space. In the **New space** dialog it is called **Frontend URL**. Leave it empty for a [space without a website](#a-space-without-a-website) |
 | Technical name | Shown for reference only. It cannot be changed |
 
 Change what you need and click **Save changes**. You should see the message "Name and address saved".
@@ -192,14 +192,22 @@ With the website plugin, **Settings > General** also holds the website settings 
 
 With **Designed site** you design the website in the admin; see [Designing your website](../design/index.md). The **Site URL** starts as `http://localhost:3200`, where the site process runs on a developer's computer, and you pick a **Theme**; the list shows a small preview of each theme's colors and heading font. The new space is switched to a designed site, the theme arrives as a draft, and the host of the Site URL (`localhost`) becomes the site's domain. If another space already uses that host, you see a notice; add a domain later under **Settings > API hosts**.
 
-With **Own frontend** you enter the **Frontend URL**: the address of the website that shows this space, for example `https://www.example.com`. It starts as `http://localhost:3005`, where the starter website runs on a developer's computer. Ask whoever builds the website if you do not know it yet; you can change it later as **Website address** in the **Name and website** card of **Settings > General**.
+With **Own frontend** you enter the **Frontend URL**: the address of the website that shows this space, for example `https://www.example.com`. A **Preconfigured** space needs it and starts with `http://localhost:3005`, where the starter website runs on a developer's computer; an **Empty space** starts with the field empty. Ask whoever builds the website if you do not know it yet; you can change it later as **Website address** in the **Name and website** card of **Settings > General**.
 
 ### What the frontend URL is for
 
 - **Visit site** in the top bar opens this address in a new tab.
 - The **Visual** editor shows the website inside the admin while you edit, by loading this address followed by `/preview`. It only works if the website was built with such a preview page; see [Preview and the visual editor](../website/preview.md).
 
-A new space is suggested the address `http://localhost:3005`, where the starter website runs on a developer's computer. For any other website, replace it with the website's real address, or the Visual editor will show an empty frame.
+A preconfigured space is suggested the address `http://localhost:3005`, where the starter website runs on a developer's computer. For any other website, replace it with the website's real address, or the Visual editor will show an empty frame.
+
+### A space without a website
+
+Not every space feeds a website. A space that only holds data, for [workflows](./workflows.md) and [webhooks](./webhooks.md) to work with, leaves the address empty. To do that with a space you already have, clear **Website address** under **Settings > General** and click **Save changes**.
+
+Without an address there is no **Visit site** button, no link on the dashboard, and no **Visual** button or preview, because there is nothing to open. A designed site still shows its canvas. Menus, redirects and everything else keep working.
+
+On the command line, leave out `--url` in `manablox space create`. For the first space of a new project, use `manablox create --no-space-url`, or answer `none` when `manablox create` asks for the address. See [The manablox command](../help/cli.md).
 
 ## Members
 

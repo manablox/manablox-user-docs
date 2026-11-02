@@ -96,7 +96,6 @@ What you see depends on your role in the current space. A section you may not us
 | Security | Who must use two-factor authentication, and the single sign-on providers. Only administrators see this section | [Two-factor authentication](./two-factor.md), [Single sign-on](./single-sign-on.md) |
 | API keys | Keys that let programs read or change content in your name | [API keys](./api-keys.md) |
 | Usage | What the whole installation and every space used this period. Only administrators see this section | [Usage](./usage.md) |
-| Licenses | The license keys of the premium plugins (website and AI). Only with a premium plugin, and only administrators see this section | [Premium plugins and licenses](../your-project/premium-plugins.md) |
 
 To look at another space's settings, switch to that space first, with the space switcher or in **Settings > Spaces**.
 

@@ -27,7 +27,7 @@ the local registry of the CMS stack, so start that first:
 
 ```sh
 # in manablox-cms
-pnpm dev:services  # postgres, valkey, minio, mailpit and the registry, verdaccio
+pnpm dev:services  # postgres, valkey, mailpit and the registry, verdaccio
 pnpm dev:publish   # every @manablox/* package, into that registry
 ```
 

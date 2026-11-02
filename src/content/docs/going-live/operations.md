@@ -91,7 +91,7 @@ What grows over time:
 - Uploads. They grow with what editors upload.
 - The media cache (see below).
 
-The cache in `valkey` does not grow without end: it is limited to 256 MB and drops the least used entries when it is full.
+`valkey` does not grow without end: it is limited to 256 MB, and cached answers expire on their own after a few minutes. It never throws anything away to make room, because your queued background jobs live there too. If it does fill up, your website keeps working without the cache, and new background jobs fail until enough cached answers have expired. If you see `cache entry not stored` in the logs, raise the 256 MB in `compose.yml` and the memory limit of the `valkey` service with it.
 
 ## The media cache
 

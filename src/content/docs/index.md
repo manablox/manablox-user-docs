@@ -71,4 +71,3 @@ Pages for editors never ask you to open a terminal. Pages for developers explain
 
 - The [developer documentation](https://dev.manablox.io) explains how Manablox itself is built: its packages, the plugin contract and the full API reference. Read it when you write plugins or want to change Manablox.
 - The source code of the CMS is on [GitHub](https://github.com/manablox/manablox-cms). Report problems and ask for features there, under Issues.
-- Licenses for the premium plugins are sold on the [license portal](https://licenses.manablox.io), see [Premium plugins and licenses](./your-project/premium-plugins.md).

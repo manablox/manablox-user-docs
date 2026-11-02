@@ -173,7 +173,7 @@ If the space has AI set up, **Describe a template** lays out a template from a f
 
 The visual editor shows your website inside the admin while you edit, with your changes appearing as you type, even before you save.
 
-Click **Visual** in the editor's header. The button appears on documents whose type has a web address and at least one Blocks or Block field. The visual editor opens full screen:
+Click **Visual** in the editor's header. The button appears on documents whose type has a web address and at least one Blocks or Block field, in a space that has a website to show them on. The visual editor opens full screen:
 
 - In the middle, the website shows the document. Under the document's title in the top left, "Live preview connected" means the website is receiving your changes; "Waiting for the site..." means it has not answered yet.
 - Above it, **Preview width** switches between a desktop, tablet and mobile width.

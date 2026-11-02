@@ -50,7 +50,7 @@ Click **Create a space**. A form appears. Fill it in like this:
 | Name | `Website` | The name you see in the admin. You can change it later |
 | Technical name | Fills itself in as `website` | Used by code and in addresses. It cannot be changed later |
 | Website | **Own frontend** | **Designed site** lets you design the website in the admin instead; see [Designing your website](../design/index.md). To follow this guide, pick **Own frontend** |
-| Frontend URL | Leave `http://localhost:3005` | The address of the website that shows this space, used for the preview. `3005` is where the starter website runs in [Show it on a website](./first-website.md). You can change it later |
+| Frontend URL | `http://localhost:3005` | The address of the website that shows this space, used for the preview. `3005` is where the starter website runs in [Show it on a website](./first-website.md). Choosing **Empty space** below empties this field, so check it before you go on. You can change it later |
 | Locales | Leave English | The languages you write content in. Type in the box to search for more |
 | Default locale | Leave English | The language used when a translation is missing |
 | Start with | **Empty space** | See below |

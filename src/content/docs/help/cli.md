@@ -1,6 +1,6 @@
 ---
 title: "The manablox command"
-description: "Complete reference of the manablox command: create, plugin, frontend, start, migrate, backup, migrate-db, sync, user, space, website, license, push-keys and docs, with every option, the options plugins add, the questions they ask, their defaults, how the config file and .env are found, and the exit codes."
+description: "Complete reference of the manablox command: create, plugin, frontend, start, migrate, backup, migrate-db, sync, user, space, website, push-keys and docs, with every option, the options plugins add, the questions they ask, their defaults, how the config file and .env are found, and the exit codes."
 ---
 
 `manablox` is the command line tool that creates, updates and starts your CMS. This page lists every command and every option. For a guided first run, start with [Create your CMS](../getting-started/create-your-cms.md) instead.
@@ -28,7 +28,6 @@ Run the commands in your project folder: that is where `manablox` looks for the 
 | `manablox user create` | Creates an account, for example the first administrator |
 | `manablox space create` | Creates a space, with starter content and a designed website if you like |
 | `manablox website ...` | Publishes designs and manages site domains (the website plugin) |
-| `manablox license ...` | Buys, adds and checks the license keys of the premium plugins |
 | `manablox push-keys` | Prints a key pair for push notifications |
 | `manablox docs generate --out <dir>` | Writes reference pages about your CMS and its plugins |
 
@@ -46,7 +45,7 @@ websites, is the one you meet first.
 
 ## The config file and .env
 
-`start`, `migrate`, `backup`, `migrate-db`, `sync`, `user`, `space`, `license`, `docs` and plugin commands such as `website` read your configuration. They look for it like this:
+`start`, `migrate`, `backup`, `migrate-db`, `sync`, `user`, `space`, `docs` and plugin commands such as `website` read your configuration. They look for it like this:
 
 1. First they load the file `.env` from the folder you run the command in, if it exists. A variable that is already set in your terminal wins over the value in `.env`.
 2. Then they load the config file: the one given with `--config <file>` (relative to the current folder), or else the first of `manablox.config.ts`, `manablox.config.mts`, `manablox.config.js` or `manablox.config.mjs` in the current folder.
@@ -236,7 +235,7 @@ With `--owner`, that account owns the space. Without it, the space has no owner 
 | --- | --- | --- |
 | `--name <name>` | required | The name of the space, 1 to 200 characters |
 | `--machine-name <name>` | made from the name | The technical name: a lowercase letter first, then letters, digits, `-` or `_`. `Acme Blog` becomes `acme-blog` |
-| `--url <url>` | `http://localhost:3200` | The address of the website |
+| `--url <url>` | none | The address of the website. Without it the space has no frontend, for example one that only holds data for workflows and webhooks. See [A space without a website](../admin/spaces.md#a-space-without-a-website) |
 | `--locales <list>` | `en` | The languages, comma separated, for example `en,de`. The first one is the default language |
 | `--template <id>` | none | Fill the space as a website type: `business` (company website with services, a team, testimonials, questions and a contact form), `landing` (product or landing page with features, numbers, pricing and questions), `portfolio` (projects, a project grid, a gallery and a contact form), `blog` (posts, pages and a blogroll), `basic` (Page and Article types with a Teaser block) or `custom` (the sections from `--blocks`). Every type adds published example pages and a main menu; see [Spaces](../admin/spaces.md#type-of-website) |
 | `--blocks <list>` | `hero,text,media-text,gallery,quote,call-to-action` | The sections of the `custom` type, comma separated, and implies it: `hero`, `text`, `media-text`, `image`, `gallery`, `quote`, `features`, `stats`, `faq`, `pricing`, `testimonials`, `team`, `contact`, `call-to-action`. The site designs have a design for each |
@@ -302,7 +301,7 @@ They come in this order. Questions that do not apply to your earlier answers are
 | How is its website built? | Creating a space, with designed websites | Designed site |
 | Which theme does the site start with? | A designed site | Neutral |
 | Which design does the site start with? | A designed site | The theme group's first |
-| Address of the website | Creating a space | The site process (`http://localhost:3200`), `https://www.example.com` behind Caddy or nginx, or `http://localhost:3005` for your own frontend |
+| Address of the website | Creating a space | The site process (`http://localhost:3200`), `https://www.example.com` behind Caddy or nginx, or `http://localhost:3005` for your own frontend. Answer `none` for a space without a website |
 | What does the space start with? | Creating a space | Preconfigured (or Empty space) |
 | What kind of website is it? | A preconfigured space | Basic setup (or Company website, Product or landing page, Portfolio, Personal blog, Pick your blocks) |
 | Which sections are the pages built from? | Pick your blocks | Hero, text, media and text, gallery, quote and call to action |
@@ -341,6 +340,7 @@ The answers to "Which database?" are Postgres and SQLite. The answers to "How wi
 | `--space` / `--no-space` | `--space` | Create a first space. With `--start` it is created as soon as the database is ready. Otherwise "Next steps" shows the `manablox space create` command to run after `pnpm migrate` (docker: after `docker compose up -d`) |
 | `--space-name <name>` | `My site` | The name of the first space. Giving any `--space-...` option means `--space`. With `--admin` the administrator owns it |
 | `--space-url <url>` | see the question above | The address of the website. A designed site answers on its host |
+| `--no-space-url` | off | Creates the first space without a website, for data only |
 | `--space-locales <list>` | `en` | The languages, comma separated. The first one is the default. Never asked |
 | `--space-template <id>` | `basic` | The first space's website type: `business`, `landing`, `portfolio`, `blog`, `basic` or `custom` |
 | `--space-blocks <list>` | none | The sections of the `custom` type, as `--blocks` of `manablox space create` |
@@ -417,7 +417,7 @@ pnpm exec manablox plugin disable ai --space blog
 
 | Command | What it does |
 | --- | --- |
-| `plugin list` | Shows every feature you can add, the plugins the project has installed and configured, and, when the database answers, whether their database changes are applied, whether they are switched on for the whole CMS and, for the premium ones, their license state |
+| `plugin list` | Shows every feature you can add, the plugins the project has installed and configured, and, when the database answers, whether their database changes are applied and whether they are switched on for the whole CMS |
 | `plugin install <name>...` | Adds features: `website`, `ai`, `workflows`, `webhooks`, or the npm package of another Manablox plugin. It asks the plugin's own questions (the website asks for the site port), adds the package, writes the plugin's parts into your project files, installs the packages and updates the database. Adding a feature that is there already changes nothing |
 | `plugin uninstall <name>...` | Removes features again, after asking you to confirm. What the feature stored stays in the database: installing it again brings it all back. A feature another one needs cannot be removed first |
 | `plugin enable <name>`, `plugin disable <name>` | Switches a feature on or off for the whole CMS, or with `--space <name>` for one space. The feature stays installed; switched off, it is hidden and does nothing |
@@ -434,8 +434,6 @@ pnpm exec manablox plugin disable ai --space blog
 The command changes only the parts it marked: every place a feature can add to has a comment such as `# manablox:slot env` in the file, and each feature's part sits between `manablox:plugin <name> >>>` and `<<<` comments. Edit around them as you like. Where one of these comments is missing, the command writes nothing into that file and shows the part and the file it belongs in, so you can add it yourself.
 
 After installing or removing a feature, restart the CMS (`pnpm dev` restarts on its own). In a `docker` project run `./scripts/lockfile.sh` and `docker compose up -d --build`.
-
-Designed websites and AI assistance are premium features: in production they need a license, on your own computer they run without one. When you install one and no license covers it yet, the command asks once what to do. On a local installation (every address private, not `NODE_ENV=production`) it asks "… On this local instance it runs without a license key; production needs a subscription. License it now?", and the first answer, **Continue without a key (development)**, is the default; after it come start a 14-day trial, buy a subscription and enter a key you already have. Elsewhere it asks "License it now?" with start a 14-day trial (the default), buy, enter a key, or later; without a license the feature stays locked there. It installs the feature either way. With `--yes` or without a terminal it shows the commands to run instead; for a local project they start with the line `# the premium plugins run locally without a key; production needs a license:`. `manablox create` asks the same question once at the end, when you picked a premium feature.
 
 ## manablox website
 
@@ -464,44 +462,6 @@ pnpm exec manablox website domains remove www.example.com --space blog
 | `--config <file>` | see above | The config file to read |
 
 `pnpm exec manablox website --help` prints the same list.
-
-## manablox license
-
-License keys for the premium features, designed websites and AI assistance. A local installation needs none: the premium features run there without a key, on local addresses only (see [Premium plugins and licenses](../your-project/premium-plugins.md#development-and-production)). For production you buy a subscription in the license portal, and the key lands in your project's `.env` as `MANABLOX_LICENSE_KEYS`. Keys are secrets: never put them in `manablox.config.ts`.
-
-```sh
-pnpm exec manablox license buy
-pnpm exec manablox license buy --plugins ai,website --yearly
-pnpm exec manablox license buy --plugins ai --trial --monthly
-pnpm exec manablox license add MBX-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX
-pnpm exec manablox license status
-pnpm exec manablox license remove XXXXX
-```
-
-| Command | What it does |
-| --- | --- |
-| `buy` | Asks which premium features you want (both together are the bundle) and whether to pay monthly or yearly, with the prices. It then opens the portal in your browser and shows a code: check that the portal shows the same one, and pay there. The command waits until you are done, for up to 30 minutes, then saves and activates the key by itself. You can close the browser tab after paying. Whether a free trial applies, the portal decides. Ctrl+C stops waiting |
-| `add <key>` | Saves a key you already have in `.env` and activates it. Without a `.env` it asks whether to create one, or shows the line to add to your server's settings. When all the subscription's production places are taken, it lists the other installations using them and offers to switch one off, to use this installation as a development one, or to stop |
-| `status` | Shows every key with its features, kind, state, when the paid or trial period ends and when the license was last checked, then the state of each premium feature: `development` for one that runs without a license on a local installation. Ends with code `1` while a premium feature is locked, not while it is `development` |
-| `activate [<key id>]` | Activates the keys again, for example after restoring a backup on another server |
-| `refresh` | Checks every license with the license server now |
-| `remove <key id>` | Switches the key off on the license server and takes it out of `.env` (a key added in the admin is removed there) |
-| `open [billing]` | Opens your subscriptions in the portal, or with `billing` your account |
-
-| Option | Default | Meaning |
-| --- | --- | --- |
-| `--plugins <list>` | asked | `buy`: `ai`, `website`, or `ai,website` (also written `bundle`). Needed without a terminal |
-| `--yearly`, `--monthly` | asked | `buy`: how often you pay. Needed without a terminal |
-| `--trial` | off | `buy`: go straight to the free 14-day trial. The portal still checks that the trial is unused |
-| `--dev`, `--production` | decided by the addresses | `add`, `activate`: a development installation takes no production place but only works on local addresses such as `localhost` |
-| `--name <name>` | the admin's address and the start of the instance id | `add`: the name the portal shows for this installation |
-| `--no-activate` | activate | `buy`, `add`: only save the key in `.env`; the CMS activates it when it starts |
-| `--no-browser` | open the browser | `buy`, `open`: only show the address. Also the default without a terminal and over SSH |
-| `--json` | off | `status`: the details as JSON |
-| `--yes` | off | Ask nothing |
-| `--config <file>` | see above | The config file to read |
-
-The key id is the first group of a key, `XXXXX` in `MBX-XXXXX-...`. `status`, `activate`, `refresh` and `remove` need the database of your config, like the admin.
 
 ## manablox frontend [dir]
 
@@ -572,8 +532,8 @@ When a command ends, it reports a number to the terminal or script that ran it. 
 | Code | Meaning |
 | --- | --- |
 | `0` | Success, or the help text was asked for |
-| `1` | Something went wrong: an unknown command or option, a wrong value, an invalid config, or an error while running. The message starts with `manablox:`. `license status`: a premium feature is locked |
+| `1` | Something went wrong: an unknown command or option, a wrong value, an invalid config, or an error while running. The message starts with `manablox:` |
 | `2` | `sync --dry-run`: there is something to change. `migrate-db`: the check found a difference in the copy. `website domains verify`: the domain is not verified yet. A script can stop on this |
-| `130` | `create` or `frontend` was cancelled with Ctrl+C during the questions. It prints `manablox: cancelled, nothing was written`. `license buy` was stopped with Ctrl+C while it waited |
+| `130` | `create` or `frontend` was cancelled with Ctrl+C during the questions. It prints `manablox: cancelled, nothing was written` |
 
 `create --start` on a local project ends with the exit code of `pnpm dev`, which it runs at the end.
